@@ -1,0 +1,24 @@
+{
+  "name": "crowsuiterevised",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Citralyn/CrowSuiteRevised.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Citralyn/CrowSuiteRevised/issues"
+  },
+  "homepage": "https://github.com/Citralyn/CrowSuiteRevised#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "node-http": "^0.0.5",
+    "socket.io": "^4.8.1"
+  }
+}

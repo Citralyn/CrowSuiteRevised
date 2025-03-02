@@ -1,0 +1,117 @@
+The Socket.IO server is implicitly an HTTP server:
+
+EX:
+
+const { Server } = require("socket.io");
+
+const io = new Server(3000, { /* options */ });
+
+io.on("connection", (socket) => {
+  // ...
+});
+
+According to Stack Overflow, you don't need an HTTP server for regular websockets,
+but Socket.IO uses HTTP for its initial connection setup.
+
+EX: (explicitly using an HTTP server)
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
+const httpServer = createServer();
+const io = new Server(httpServer, { /* options */ });
+
+io.on("connection", (socket) => {
+  // ...
+});
+
+httpServer.listen(3000);
+
+EX: HTTPS!
+
+const { readFileSync } = require("fs");
+const { createServer } = require("https");
+const { Server } = require("socket.io");
+
+const httpsServer = createServer({
+  key: readFileSync("/path/to/my/key.pem"),
+  cert: readFileSync("/path/to/my/cert.pem")
+});
+
+const io = new Server(httpsServer, { /* options */ });
+
+io.on("connection", (socket) => {
+  // ...
+});
+
+httpsServer.listen(3000);
+
+EX: Express
+
+const express = require("express");
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, { /* options */ });
+
+io.on("connection", (socket) => {
+  // ...
+});
+
+httpServer.listen(3000);
+
+In my original CrowSuite game I passed in a CORS whitelist as one of my optional server parameters. 
+I'm going to check if I actually have to do that. In fact, I'll check each server type. 
+
+In addition, if my socket (client) is on a different domain than my server,
+I have to pass the url -> const socket = io("https://server-domain.com");
+
+https://, wss:// and (nothing) can all be substituted for each other 
+
+Back to CORS - I do get an error if I try to connect to the socket.IO server
+-> Failed to load resource: Origin http://localhost:5173 is not allowed by Access-Control-Allow-Origin. Status code: 200 
+
+So I have to pass in the front-end server like so:
+const io = new Server( httpServer, {
+    cors: {
+        origin: "http://localhost:5173"
+    }
+});
+
+I'm getting errors with the client recieving messages from the server.
+Is it because of the server type? (I tried using http now)
+Is it because I need to define it as a proxy server in Vite?
+
+EX:
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/': {
+        target: 'http://localhost:3000',
+        ws: true,
+        rewriteWsOrigin: true,
+      },
+    }
+  }
+})
+
+Do I have to synchronize the connection with an external system using UseEffect?
+EX:
+    useEffect(() => {
+        socket.on("connect", () => {
+            console.log(socket.id); 
+        });
+        
+        socket.on("disconnect", () => {
+            console.log(socket.id); 
+        });
+        
+        socket.on("hello_from_server", (msg) => {
+            console.log(msg);
+        })
+    
+    }, []); 
+
+So far, no luck.
