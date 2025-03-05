@@ -5,6 +5,7 @@ import './global.scss'
 import MainLayout from './layouts/MainLayout.jsx';
 import HomePage from './pages/HomePage.jsx';
 import CatPage from './pages/CatPage.jsx';
+import Prototype from './pages/Prototype.jsx';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="cat" element={<CatPage />} />
+          <Route path="proto" element={<Prototype />} />
         </Route>
       </Routes>
     </BrowserRouter>

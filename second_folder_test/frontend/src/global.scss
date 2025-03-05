@@ -1,1 +1,9 @@
+.coolColor {
+    background-image: linear-gradient( black, darkred);
+}
+
+.glow {
+    box-shadow: 0 0 100px greenyellow;
+}
+
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
