@@ -4,20 +4,13 @@ import { useEffect } from 'react';
 
 export default function Home() {
     useEffect(() => {
+        console.log("?")
         socket.on("connect", () => {
             console.log(socket.id); 
         });
-        
-        socket.on("disconnect", () => {
-            console.log(socket.id); 
-        });
-        
-        socket.on("hello_from_server", (msg) => {
-            console.log(msg);
-        })
-    
-    }, []); 
 
+    }, [socket]); 
+    
     return(
         <h1>Home</h1>
     )
