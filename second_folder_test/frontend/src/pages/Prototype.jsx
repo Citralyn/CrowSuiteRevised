@@ -6,6 +6,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image"
 import { useState } from "react";
 import cards from './tempcards.jsx'
+import { DeckCard, Card, GlowCard } from '../utilities/Card.jsx'
 
 function CardTable() {
     return(
@@ -13,7 +14,7 @@ function CardTable() {
             <Row>
                 {Array.from({ length: 5 }, (_, i) => (
                                         <Col>
-                                        <Card key={i} suit={cards[i].suit} value={cards[i].value}></Card>
+                                        <DeckCard key={i} suit={cards[i].suit} value={cards[i].value}></DeckCard>
                                         </Col>
                 ))}
             </Row>
@@ -37,25 +38,6 @@ function Player() {
     )
 }
 
-function Card({selected, setSelected, suit, value}) {
-    
-    function handleClick() {
-        let newselected = selected + 1;
-        setSelected(newselected);
-        console.log(newselected)
-    }
-
-    return(
-        <div onClick={() => {handleClick()}}>
-        <Container style={{width: "5vw", height: "8vw"}} className="bg-light shadow rounded">
-            <Col className="d-flex flex-column align-items-center">
-            <Row className="justify-content-center">{suit}</Row>
-            <Row className="justify-content-center">{value}</Row>
-            </Col>
-        </Container>
-        </div>
-    )
-}
 
 function PlayerStats() {
     return(
@@ -99,17 +81,17 @@ function SelectedCards({selected}) {
             <Row>
                 {Array.from({ length: selected }, (_, i) => (
                                         <Col>
-                                        <div className="glow">
-                                        <Card key={i} suit={cards[i].suit} value={cards[i].value}></Card>
-                                        </div>
+                                        <GlowCard key={i} suit={cards[i].suit} value={cards[i].value}></GlowCard>
                                         </Col>
                 ))}
             </Row>
             </Col>
-            <Row>
+            
+            <Row className="justify-content-between">
                 <Col><Button variant="warning">Play</Button></Col>
                 <Col><Button variant="warning">Pass</Button></Col>
             </Row>
+           
         </Container>
     )
 

@@ -6,6 +6,7 @@ import MainLayout from './layouts/MainLayout.jsx';
 import HomePage from './pages/HomePage.jsx';
 import CatPage from './pages/CatPage.jsx';
 import Prototype from './pages/Prototype.jsx';
+import Login from './pages/Login.jsx';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="cat" element={<CatPage />} />
           <Route path="proto" element={<Prototype />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </BrowserRouter>
