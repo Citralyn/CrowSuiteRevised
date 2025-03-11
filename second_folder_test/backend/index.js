@@ -16,8 +16,10 @@ app.use(cookieParser())
 const httpServer = createServer(app);
 
 app.post("/login", (req, res) => {
-    console.log(req.body.username);
-    res.clearCookie('username');
+    console.log(req.body)
+    console.log(`Username is ${req.body.username}`);
+    res.clearCookie('username', { path: '/' });
+    console.log(req.cookies)
     res.cookie("username", req.body.username, { maxAge: 86400000});
     res.send('Cookie Set!');
     console.log(req.cookies)

@@ -10,7 +10,25 @@ export default function HomePage() {
           });
     }, [])
 
+    async function getUsername() {
+        try {
+          const response = await fetch("http://localhost:3003/get_user", {
+            credentials: "include"
+          });
+          if (response.ok) {
+            const data = await response.text(); 
+            console.log(data); 
+            
+          }
+        } catch(error) {
+          console.log(error.message); 
+        }
+    }
+
     return(
+        <div>
         <Button>meow</Button>
+        <Button onClick={getUsername}>this will get cookie - if it exists</Button>
+        </div>
     )
 }

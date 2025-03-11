@@ -7,26 +7,6 @@ import { useState, useEffect } from 'react';
 export default function Login() {
     const [username, setUsername] = useState("");
 
-    useEffect(() => {
-      getUsername(); 
-    }, [username])
-
-    async function getUsername() {
-        try {
-          const response = await fetch("http://localhost:3003/get_user", {
-            credentials: "include"
-          });
-          if (response.ok) {
-            const data = await response.text(); 
-            console.log(data); 
-            setUsername(data); 
-            
-          }
-        } catch(error) {
-          console.log(error.message); 
-        }
-    }
-
     async function setUSCookie(us) {
       try {
         const response = await fetch("http://localhost:3003/login", {
@@ -52,6 +32,8 @@ export default function Login() {
 
     function handleSubmit(event) {
         event.preventDefault();
+        console.log(username);
+        console.log("S")
         setUSCookie(username); 
     }
     return(
