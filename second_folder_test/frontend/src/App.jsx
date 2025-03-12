@@ -1,23 +1,25 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router";
-import './global.scss'
 
 import MainLayout from './layouts/MainLayout.jsx';
-import HomePage from './pages/HomePage.jsx';
-import CatPage from './pages/CatPage.jsx';
-import Prototype from './pages/Prototype.jsx';
+
+import Home from './pages/Home.jsx';
+import Game from './pages/Game.jsx';
+import Tutorial from './pages/Tutorial.jsx';
+import Waiting from './pages/Waiting.jsx';
 import Login from './pages/Login.jsx';
+
+import './global.scss'
 
 function App() {
   return (
-    // routes under the central root path, and routes under /projects
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="cat" element={<CatPage />} />
-          <Route path="proto" element={<Prototype />} />
+          <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
+          <Route path="waiting" element={<Waiting />} />
+          <Route path="game" element={<Game />} />
+          <Route path="tutorial" element={<Tutorial />} />
         </Route>
       </Routes>
     </BrowserRouter>

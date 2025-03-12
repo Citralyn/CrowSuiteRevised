@@ -1,4 +1,40 @@
-// pass the socket as a dependency 
-// makes a difference
-// i dont think server makes much of a difference
- // i think HTTP and EXPRESS have different 
+TODO:
+
+
+lets think 
+// player username
+// their number of cards 
+//if connected -> will send alert
+-// if disconnected -> will send an alert
+
+// basically -> nubmer of connected clients G
+// we can just store the player_id (aka socket_id) as a map
+// that will map to an object
+object will have username, number of cards, player number
+
+// player can have cards
+an array
+//then held and selected can just be arrays of false or true 
+.. thats it for the client 
+and keep track of the number 
+
+For game state
+game room 
+# of players
+round amount of cards
+number of passes
+current turn 
+// have a list of the randomized cards 
+// and whats in the deeck 
+"" i gess it needs to handle 
+
+Walkthrough
+-> socket signs on
+-> //nothing happens immediately 
+-> user logs in (enters a username)
+- // socket id -> gets saved as a cookie
+-> also (on server end) new room gets created
+-> map (with key being socketid) is saved to server with player information
+// game room is fine 
+
+//
