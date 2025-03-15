@@ -15,34 +15,32 @@ app.use(cookieParser())
 
 const httpServer = createServer(app);
 
-app.post("/login", (req, res) => {
-    console.log(req.body)
-    console.log(`Username is ${req.body.username}`);
-    res.clearCookie('username', { path: '/' });
-    console.log(req.cookies)
-    res.cookie("username", req.body.username, { maxAge: 86400000});
-    res.send('Cookie Set!');
-    console.log(req.cookies)
-});
+app.post("/set_game_state", (req, res) => {
+    res.cookie("gamestate", req.body.gamestate, { maxAge: 86400000, overwrite: true }); 
+    res.send("Updated game state")
+})
 
-app.get("/set_socket", (req, res) => {
-    if (req.cookies.socket) {
-        res.send('already here');
+app.get("/get_game_state", (req, res) => {
+    if (!req.cookies.gamestate) {
+        res.cookie("gamestate", "new", { maxAge: 86400000, sameSite: 'none', secure: true});
+        res.send("new"); 
     } else {
-        res.cookie("socket", req.body.socket, { maxAge: 86400000});
-        res.send('Cookie Set!');
+        res.send(req.cookies.gamestate);
     }
 })
 
-app.get("/get_user", (req, res) => {
-    const username = req.cookies.username;
-    console.log(req.cookies)
-    console.log(req.cookies.username)
-    if (username) {
-        res.send(`${username}`);
-    } else {
-        res.send("undefined")
-    }
+app.post("/new_user", (req, res) => {
+    res.cookie("player_id", req.body.player_id, { maxAge: 86400000, sameSite: 'none', secure: true }); 
+    res.cookie("game_id", req.body.game_id, { maxAge: 86400000, sameSite: 'none', secure: true }); 
+    res.send("Added Cookies!")
+})
+
+app.get("/get_game_id", (req, res) => {
+    res.send(req.cookies.game_id); 
+})
+
+app.get("/get_player_id", (req, res) => {
+    res.send(req.cookies.player_id); 
 })
 
 const io = new Server( httpServer, {
@@ -53,8 +51,7 @@ const io = new Server( httpServer, {
 });
 
 
-import { Game, Player } from "../frontend/src/utilities/game"; 
-import { addNewCookies } from "../frontend/src/utilities/cookies"
+import { Game, Player } from "../frontend/src/utilities/game.js"; 
 
 let games = [];
 let game0 = new Game("room0", 1);
@@ -70,10 +67,11 @@ io.on("connection", (socket) => {
         let currentGame = games[currentGameNumber];
         totalPlayers += 1;
 
-        let newPlayer = Player(username, totalPlayers, socket.id);
+        let newPlayer = new Player(username, totalPlayers, socket.id);
         currentGame.addPlayer(newPlayer);
         socket.join(currentGame.gameRoom); 
-        addNewCookies(socket.id, currentGameNumber);
+        socket.emit("switchToWaiting");
+        socket.emit("addPlayerCookie", currentGameNumber); 
         io.to(currentGame.gameRoom).emit("playerConfirmed", currentGame.numberOfPlayers);
 
         if (currentGame.numberOfPlayers >= 4) {
@@ -86,6 +84,24 @@ io.on("connection", (socket) => {
             io.to(currentGame.gameRoom).emit("readyToStart");
         }
     }); 
+
+    socket.on("clientHasStarted", (gameNumber) => {
+        let currentGame = games[gameNumber];
+
+        io.to(currentGame.gameRoom).emit("switchToGame");
+
+        let currentPlayer = currentGame.playerUsernames[currentGame.currentPlayerTurn - 1]; 
+        console.log(`PLAYERS -> ${currentGame.players}`)
+        io.to(currentGame.gameRoom).emit("initializeUI", currentGame.players, currentPlayer);
+        io.to(currentGame.gameRoom).emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
+        io.to(currentGame.gameRoom).emit("updateOtherPlayers", currentGame.players);
+    })
+
+    socket.on("connectToPrevious", (gameRoomNumber) => {
+        console.log(gameRoomNumber)
+        let currentGame = games[gameRoomNumber];
+        socket.join(currentGame.gameRoom); 
+    })
 });
   
 httpServer.listen(3003, () => {

@@ -4,13 +4,22 @@ import Container from 'react-bootstrap/Container'
 import socket from "../../socket.js";
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { setGameState } from '../utilities/cookies.js';
 
 export default function Login() {
     const [username, setUsername] = useState("");
+    const navigateTo = useNavigate();
+
+    socket.on("switchToWaiting", () => {
+      navigateTo("/waiting")
+    })
 
     function handleSubmit(event) {
         event.preventDefault();
         socket.emit("playerJoined", username); 
+        setGameState("waiting")
+        
     }
 
     return(

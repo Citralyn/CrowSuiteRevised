@@ -1,47 +1,39 @@
 import socket from "../../socket.js";
 import { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
+import { getGameState, getGameID } from "../utilities/cookies.js"
 
 import Button from "react-bootstrap/Button"
 
 export default function HomePage() {
+  const navigateTo = useNavigate();
+
     useEffect(() => {
         socket.on("connect", () => {
             console.log(`${socket.id} has connected`);
           });
     }, [])
 
-    async function getGameState() {
-      try {
-        const response = await fetch("http://localhost:3003/get_game_state", {
-          credentials: "include"
-        });
-
-        if (response.ok) {
-          const data = await response.text(); 
-          console.log(`State is {data}`); 
-          return data; 
-        }
-
-      } catch(error) {
-        console.log(error.message); 
-      }
-    }
-
-    const navigateTo = useNavigate();
-
     function goToTutorial() {
       navigateTo('/tutorial');
     }
 
-    function playGame() {
-      let state = getGameState(); 
-      if (state == "new") {
-        navigateTo('/login');
-      } else if (state == "waiting") {
-        navigateTo('/waiting');
+    async function playGame() {
+      let state = await getGameState(); 
+
+      if (state != "new") {
+        let current_game_id = await getGameID(); 
+        console.log(current_game_id)
+        socket.emit("connectToPrevious", current_game_id); 
+
+        if (state == "waiting") {
+          navigateTo('/waiting');
+        } else {
+          navigateTo('/game');
+        }
+
       } else {
-        navigateTo('/game');
+        navigateTo('/login');
       }
     }
 

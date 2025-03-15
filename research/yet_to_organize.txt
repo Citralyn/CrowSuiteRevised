@@ -1,4 +1,7 @@
 TODO:
+I need to isolate certain parts of the code to test it
+Instead of just running the whole thing each itme lol 
+
 
 
 lets think 

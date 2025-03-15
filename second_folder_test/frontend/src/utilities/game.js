@@ -9,15 +9,15 @@ class Game {
     currentPlayerTurn = 1; 
     numberOfPasses = 0; 
     cards = []; 
-    deckCardIndexes = []; 
+    deckCardIndexes = [3, 14, 39]; 
 
-    players;
+    players = {}
+    playerUsernames = []; 
     winner = null;
 
     constructor(gameRoom, gameNumber) {
         this.gameRoom = gameRoom; 
         this.gameNumber = gameNumber; 
-        this.players = new Map();
     }
 
     addPlayer(newPlayer) {
@@ -26,9 +26,10 @@ class Game {
         newPlayer.gameRoom = this.gameRoom; 
         newPlayer.gameNumber = this.gameNumber; 
 
-        this.players.set(newPlayer.playerId, newPlayer);
+        this.players[newPlayer.playerId] = newPlayer;
+        this.playerUsernames.push(newPlayer.username); 
 
-        if (this.totalPlayers == 4) {
+        if (this.numberOfPlayers == 4) {
             this.dealCards(); 
         }
     }
@@ -38,10 +39,11 @@ class Game {
         shuffleCards(newCards); 
         this.cards = newCards;
 
-        for (const value of this.players.values()) {
-            let i = value.playerNumber;
-            value.playerCards = newCards.slice(i - 1, 13 * i);
-            value.playerCards.sort((a, b) => (a.value - b.value));
+        for (const [index, player] of Object.entries(this.players)) {
+            let i = player.playerNumber;
+            player.playerCards = newCards.slice(13 * (i - 1), 13 * i);
+            player.playerCards.sort((a, b) => (a.value - b.value));
+            console.log(`player ${i}'s cards: ${player.playerCards[i].value}`)
         }
     }
 
