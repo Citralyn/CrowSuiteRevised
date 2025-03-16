@@ -9,21 +9,24 @@ import Button from "react-bootstrap/Button"
 import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image"
 
+
 import socket from "../../socket.js";
 import { getPlayerID, getGameID } from "../utilities/cookies.js"
 
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router';
 
 
 function Selection({cards, used, held, setHeld, selected, setSelected, 
     amountSelected, setAmountSelected}) {
 
     return(
-        <Container>
+        <Container className="w-50 bg-tranparent shadow p-5">
                 <Row>
                 {Array.from({ length: selected.length }, (_, i) => (
+                    <>
+                    {!used[i] && !held[i] &&
                     <Col key={i} >
-                        {!used[i] &&
                         <SelectedCard 
                         id = {i}
                         cards = {cards}
@@ -34,8 +37,9 @@ function Selection({cards, used, held, setHeld, selected, setSelected,
                         amountSelected={amountSelected}
                         setAmountSelected={setAmountSelected}
                         >
-                        </SelectedCard>}
-                    </Col>
+                        </SelectedCard>
+                    </Col>}
+                    </>
                 ))}
                 </Row>
         </Container>
@@ -47,14 +51,19 @@ function PlayerCards({playerNumber, username, cards, used, held, setHeld,
     selected, setSelected, amountSelected, setAmountSelected}) {
     return(
         <Container>
-                <Row>
+            <Container className="w-75 third_color my-3 shadow rounded">
+                <Row className="text-center">
+                    <Col/>
                     <Col>Player# {playerNumber}</Col>
                     <Col>{username}</Col>
+                    <Col/>
                 </Row>
+            </Container>
                 <Row>
                 {Array.from({ length: held.length }, (_, i) => (
+                    <>
+                    {!used[i] && !selected[i] &&
                     <Col key={i} >
-                        {!used[i] &&
                         <HeldCard 
                         id = {i}
                         cards = {cards}
@@ -65,8 +74,9 @@ function PlayerCards({playerNumber, username, cards, used, held, setHeld,
                         amountSelected={amountSelected}
                         setAmountSelected={setAmountSelected}
                         >
-                        </HeldCard>}
+                        </HeldCard>
                     </Col>
+                    }</>
                 ))}
                 </Row>
         </Container>
@@ -93,6 +103,8 @@ export default function Game() {
     const [username, setUser] = useState(""); 
     const [playerNumber, setPlayerNumber] = useState(0); 
     const [currentPlayer, setCurrentPlayer] = useState(""); 
+    const navigateTo = useNavigate();
+
 
 
     useEffect(() => {
@@ -174,7 +186,7 @@ export default function Game() {
     } else {
     return(
         <div>
-            <h1>{currentPlayer}'s turn to play</h1>
+            <h1 className="text-center">Current Player's Turn: {currentPlayer}</h1>
             <Row>
                 <OtherPlayer requestedIndex={2} givenIndex={playerNumber}/>
             </Row>
@@ -194,7 +206,7 @@ export default function Game() {
                 amountSelected={amountSelected}
                 setAmountSelected={setAmountSelected}
             />}
-            <Row>
+            <Row className="row justify-content-center text-center">
                 <Col/>
                 <Col><Button onClick={playCards}>Play</Button></Col>
                 <Col/>

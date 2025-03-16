@@ -2,6 +2,11 @@ import socket from "../../socket.js";
 import { useEffect } from "react";
 import { useNavigate } from 'react-router';
 import { getGameState, getGameID } from "../utilities/cookies.js"
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import ListGroup from "react-bootstrap/ListGroup";
+import Image from "react-bootstrap/Image"
 
 import Button from "react-bootstrap/Button"
 
@@ -50,10 +55,28 @@ export default function HomePage() {
     }
 
     return(
-        <div>
+        <div className="cool_color">
+          <div style={{height: "20vh"}}></div>
+          <Container className="text-center">
+            <Container className="w-50 other_color rounded">
           <h1>CROWSUITE</h1>
-          <Button onClick={playGame}>Play</Button>
-          <Button onClick={goToTutorial}>How 2 Play</Button>
+            </Container>
+
+          <Row>
+            <Col><Image className="logo" src="pigeon_logo.png"></Image></Col>
+            <Col><Image className="logo" src="duck_logo.png"></Image></Col>
+            <Col><Image className="logo" src="seagull_logo.png"></Image></Col>
+            <Col><Image className="logo" src="crow_logo.png"></Image></Col>
+          </Row>
+          <Row>
+          <Col/>
+          <Col><Button onClick={playGame}>Play</Button></Col>
+          
+          <Col><Button onClick={goToTutorial}>How 2 Play</Button></Col>
+          <Col/>
+          </Row>
+          </Container>
+          <div style={{height: "20vh"}}></div>
         </div>
     )
 }

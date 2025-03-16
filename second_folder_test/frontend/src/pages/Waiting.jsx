@@ -3,6 +3,11 @@ import socket from "../../socket";
 import { addNewCookies, setGameState } from '../utilities/cookies.js';
 import { useNavigate } from 'react-router';
 import { getGameID } from "../utilities/cookies.js"
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import ListGroup from "react-bootstrap/ListGroup";
+import Image from "react-bootstrap/Image"
 
 import { useState } from "react";
 
@@ -45,9 +50,13 @@ export default function Waiting() {
     }
 
     return(
-        <div>
+        <div className="cool_color">
+            <div style={{height: "20vh"}}></div>
+            <Container className="p-4 other_color rounded w-50 text-center">
             <h1>{playerAmount}/4 players have joined</h1>
-            <Button onClick={startGame}></Button>
+            <Button variant="primary" onClick={startGame}>START</Button>
+            </Container>
+            <div style={{height: "20vh"}}></div>
         </div>
     )
 }

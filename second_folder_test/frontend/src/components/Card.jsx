@@ -60,10 +60,14 @@ function HeldCard({id, cards, held, setHeld,
     }, [cards])
 
 
-    return(         
+    return(      
+        <>
+        {held[id] &&
         <div onClick={changeToSelected}>
-            {held[id] && <Card suit={suit} number={number}/>}
+            <Card suit={suit} number={number}/>
         </div>
+        }
+        </>   
     )
 }
 

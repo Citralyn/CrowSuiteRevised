@@ -106,7 +106,7 @@ io.on("connection", (socket) => {
         //socket.emit("addPlayerCookie", currentGameNumber); 
         setTimeout(() => {
             io.to(currentGame.gameRoom).emit("playerConfirmed", currentGame.numberOfPlayers, currentGameNumber);
-        }, 500); 
+        }, 100); 
         
 
         if (currentGame.numberOfPlayers >= 4) {
@@ -144,7 +144,7 @@ io.on("connection", (socket) => {
 
         setTimeout(() => {
             io.to(currentGame.gameRoom).emit("initializeUI", currentGame.players, currentPlayer, gameNumber);
-        }, 500); 
+        }, 100); 
         
         //socket.emit("initializeUI", currentGame.players, currentPlayer)
         //socket.emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
@@ -176,16 +176,18 @@ io.on("connection", (socket) => {
         let currentGame = games[gameNumber];
 
         if (currentGame.currentPlayerTurn != currentGame.players[socket.id].playerNumber) {
-            alert("NOT UR TURN TO PASS");
+            socket.emit("ERROR", "CANT PASS not ur turn");
+        } else if (currentGame.roundAmountOfCards == 0) {
+            socket.emit("ERROR", "CANT PASS on ur turn to start");
         } else {
             currentGame.pass(); 
 
             setTimeout(() => {
                 let currentPlayer = currentGame.playerUsernames[currentGame.currentPlayerTurn - 1]; 
-                
+                io.to(currentGame.gameRoom).emit("ALERT", `${currentPlayer}'s turn`)
                 io.to(currentGame.gameRoom).emit("updateTurn", currentPlayer);
                 io.to(currentGame.gameRoom).emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
-            }, 1000); 
+            }, 100); 
         }
 
 
@@ -214,7 +216,6 @@ io.on("connection", (socket) => {
 
             let playType = getPlayType(cards_to_check, num_cards);
 
-            socket.emit("ERROR", playType);
 
             if (playType < 0) {
                 socket.emit("ERROR", "INVALID PLAY TYPE");
@@ -228,7 +229,6 @@ io.on("connection", (socket) => {
                 let num_cards2 = deckCards.length;
 
                 if (num_cards2 == 0) {
-                    socket.emit("ERROR", "START OF ROUND");
                     currentGame.playCards(socket.id, cards_to_check, num_cards);
                     setTimeout(() => {
                         let currentPlayer = currentGame.playerUsernames[currentGame.currentPlayerTurn - 1]; 
@@ -237,18 +237,21 @@ io.on("connection", (socket) => {
                         io.to(currentGame.gameRoom).emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
                         io.to(currentGame.gameRoom).emit("updateOtherPlayers", currentGame.players);
                         if (currentGame.endOfGame) {
+                            console.log("SLOOP")
                             io.to(currentGame.gameRoom).emit("switchToResults");
                             setTimeout(() => {
-                                io.to(currentGame.gameRoom).emit("results", currentGame.winner);
-                            }, 200);
+                                console.log(`winner is: ${currentGame.winner.username}`)
+                                io.to(currentGame.gameRoom).emit("results", currentGame.winner.username);
+                            }, 300);
+                        } else {
+                            io.to(currentGame.gameRoom).emit("ALERT", `${currentPlayer}'s turn`)
                         }
-                    }, 1000); 
+                    });
                 } else {
                     if (num_cards != num_cards2) {
                         socket.emit("ERROR", "NOT CORRECT CARDS");
                     } else {
                         if (higherThanDeck(cards_to_check, deckCards, num_cards)) {
-                            socket.emit("ERROR", "Yay");
                             currentGame.playCards(socket.id, cards_to_check, num_cards);
                             setTimeout(() => {
                                 let currentPlayer = currentGame.playerUsernames[currentGame.currentPlayerTurn - 1]; 
@@ -256,7 +259,17 @@ io.on("connection", (socket) => {
                                 io.to(currentGame.gameRoom).emit("updateTurn", currentPlayer);
                                 io.to(currentGame.gameRoom).emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
                                 io.to(currentGame.gameRoom).emit("updateOtherPlayers", currentGame.players);
-                            }, 1000); 
+                                
+                                if (currentGame.endOfGame) {
+                                    console.log("SLOOP")
+                                    io.to(currentGame.gameRoom).emit("switchToResults");
+                                    setTimeout(() => {
+                                        io.to(currentGame.gameRoom).emit("results", currentGame.winner.username);
+                                    }, 300);
+                                } else {
+                                    io.to(currentGame.gameRoom).emit("ALERT", `${currentPlayer}'s turn`)
+                                }
+                            }, 100); 
                         } else {
                             socket.emit("ERROR", "NOT HIGHER THAN DECK");
                         }

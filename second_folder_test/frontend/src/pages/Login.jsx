@@ -2,6 +2,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container'
 import socket from "../../socket.js";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import ListGroup from "react-bootstrap/ListGroup";
+import Image from "react-bootstrap/Image"
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -23,8 +27,18 @@ export default function Login() {
     }
 
     return(
+      <div className="cool_color">
+      <div style={{height: "20vh"}}></div>
+      <Container className='w-50 other_color rounded shadow bg-transparent'>
+        
+        <Row className='justify-content-center align-items-center'>
+        <Col/>
+        <Col className='bg-light'>
+        <Image style={{width: "16vw"}} src="crow_king.png"/>
+        </Col>
+        <Col>
         <Form className='text-center' onSubmit={handleSubmit}>
-          <Container className='w-50'>
+          
           <Form.Group className="mb-3" controlId="username">
               <Form.Label>Username</Form.Label>
               <Form.Control 
@@ -38,7 +52,12 @@ export default function Login() {
           <Button variant="primary" type="submit">
             Submit
           </Button>
-          </Container>
         </Form>
+        </Col>
+        <Col/>
+        </Row>
+      </Container>
+      <div style={{height: "20vh"}}></div>
+      </div>
     )
 }

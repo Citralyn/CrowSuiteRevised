@@ -7,6 +7,7 @@ export default function Results() {
     const [winner, setWinner] = useState(""); 
 
     socket.on("results", (the_winner) => {
+        console.log(`the winner is ${the_winner}`)
         setWinner(the_winner); 
     })
     return(

@@ -9,6 +9,7 @@ import { useState } from "react";
 
 export default function Message() {
     const [msg, setMsg] = useState("")
+    const [title, setTitle] = useState("")
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -16,14 +17,21 @@ export default function Message() {
 
     socket.on("ERROR", (new_msg) => {
         setMsg(new_msg)
+        setTitle("ERROR")
         setShow(true)
     })
+
+    socket.on("ALERT", (new_msg) => {
+      setMsg(new_msg)
+      setTitle("ALERT")
+      setShow(true)
+  })
 
     return(
         <div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>ERROR</Modal.Title>
+          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{msg}</Modal.Body>
         <Modal.Footer>

@@ -76,6 +76,7 @@ class Game {
         if (this.players[playerID].numberOfCards == 0) {
             this.winner = this.players[playerID]; 
             this.endOfGame = true; 
+            console.log('END OF GAME')
         }
     }
 

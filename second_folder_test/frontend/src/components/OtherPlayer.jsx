@@ -5,10 +5,13 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 import { useState, useEffect } from "react";
 
+
+
 export default function OtherPlayer({requestedIndex, givenIndex}) {
     const [username, setUsername] = useState("");
     const [numberOfCards, setNumberOfCards] = useState(0);
 
+    const images = ["pigeon_svg.svg", "duck_svg.svg", "crow_svg.svg"];
 
     useEffect(() => {
         console.log(username);
@@ -40,7 +43,7 @@ export default function OtherPlayer({requestedIndex, givenIndex}) {
 
     return(
         <Container style={{width: "15vw"}} className="rounded p-3 bg-primary shadow">
-            <Image fluid src="user_icon.png"></Image>
+            <Image fluid src={images[requestedIndex - 1]}></Image>
             <ListGroup className="text-center">
                 <ListGroup.Item>{username}</ListGroup.Item>
                 <ListGroup.Item>{numberOfCards}</ListGroup.Item>

@@ -39,9 +39,8 @@ export default function Deck() {
     }, [deckIndices]);
     
     return(
-        <Container className='bg-primary shadow'>
+        <Container className='deck_color m-3 rounded shadow w-50 align-items-center'>
             <Row>
-                <h1>{cards.length}</h1>
                 {cards.length > 0 && deckIndices.map((index, i) => (
             <Col key={i}>
                 <DeckCard

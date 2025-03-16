@@ -13,8 +13,8 @@ function MainLayout() {
         <Navbar.Toggle className='bg-light' aria-controls="collapser"/>
         <Navbar.Collapse id="collapser">
           <Nav style={{float: "right"}}>
-            <Nav.Link className='text-light ' href="/proto">Play</Nav.Link>
-            <Nav.Link className='text-light' href="/">How 2 Play</Nav.Link>
+            <Nav.Link className='text-light ' href="/login">Play</Nav.Link>
+            <Nav.Link className='text-light' href="/tutorial">How 2 Play</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
