@@ -9,11 +9,12 @@ class Game {
     currentPlayerTurn = 1; 
     numberOfPasses = 0; 
     cards = []; 
-    deckCardIndexes = [13, 17, 22, 27, 30]; 
+    deckCardIndexes = []; 
 
     players = {}
     playerUsernames = []; 
     winner = null;
+    endOfGame = false;
 
     constructor(gameRoom, gameNumber) {
         this.gameRoom = gameRoom; 
@@ -74,6 +75,7 @@ class Game {
 
         if (this.players[playerID].numberOfCards == 0) {
             this.winner = this.players[playerID]; 
+            this.endOfGame = true; 
         }
     }
 

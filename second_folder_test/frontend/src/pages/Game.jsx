@@ -18,15 +18,6 @@ import { useState, useEffect } from "react";
 function Selection({cards, used, held, setHeld, selected, setSelected, 
     amountSelected, setAmountSelected}) {
 
-    function playCards() {
-        //socket.emit("get_rooms")
-        socket.emit("attemptToPlay", selected)
-    }
-
-    function passTurn() {
-        socket.emit("attemptToPass")
-    }
-
     return(
         <Container>
                 <Row>
@@ -46,10 +37,6 @@ function Selection({cards, used, held, setHeld, selected, setSelected,
                         </SelectedCard>}
                     </Col>
                 ))}
-                </Row>
-                <Row>
-                    <Col><Button onClick={playCards}>Play</Button></Col>
-                    <Col><Button onClick={passTurn}>Pass</Button></Col>
                 </Row>
         </Container>
     )
@@ -116,6 +103,30 @@ export default function Game() {
         socket.emit("everything_else")
     }, [cards]);
 
+    socket.on("updateTurn", (newPlayer) => {
+        setCurrentPlayer(newPlayer)
+        console.log(`${newPlayer}'s turn to play`)
+    })
+
+    socket.on("ERROR", (msg) => {
+        console.log(msg); 
+        let new_selected = [...selected]; 
+        let new_held = [...held];
+        for (let i = 0; i < 13; i++) {
+            if (selected[i]) {
+                new_selected[i] = false; 
+                new_held[i] = true; 
+            }
+        }
+        setSelected(new_selected);
+        setHeld(new_held);
+        setAmountSelected(0);
+    })
+
+    socket.on("switchToResults", () => {
+        navigateTo("/results")
+    }) ;
+
     socket.on("confirmMove", () => {
         let new_used = [...used]; 
         let new_selected = [...selected]; 
@@ -147,6 +158,15 @@ export default function Game() {
         setCurrentPlayer(currentPlayer); 
     })
 
+    function playCards() {
+        //socket.emit("get_rooms")
+        socket.emit("attemptToPlay", selected)
+    }
+
+    function passTurn() {
+        socket.emit("attemptToPass")
+    }
+
     
 
     if (cards.length === 0) {
@@ -163,6 +183,7 @@ export default function Game() {
                 <Deck/>
                 <OtherPlayer requestedIndex={3} givenIndex={playerNumber}/>
             </Row>
+            <Message></Message>
             {(amountSelected > 0) && <Selection 
                 cards={cards}
                 used={used}
@@ -173,6 +194,13 @@ export default function Game() {
                 amountSelected={amountSelected}
                 setAmountSelected={setAmountSelected}
             />}
+            <Row>
+                <Col/>
+                <Col><Button onClick={playCards}>Play</Button></Col>
+                <Col/>
+                <Col><Button onClick={passTurn}>Pass</Button></Col>
+                <Col/>
+            </Row>
             <PlayerCards
                 playerNumber={playerNumber}
                 username={username}

@@ -7,6 +7,7 @@ import Game from './pages/Game.jsx';
 import Tutorial from './pages/Tutorial.jsx';
 import Waiting from './pages/Waiting.jsx';
 import Login from './pages/Login.jsx';
+import Results from "./pages/Results.jsx";
 
 import './global.scss'
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="waiting" element={<Waiting />} />
           <Route path="game" element={<Game />} />
           <Route path="tutorial" element={<Tutorial />} />
+          <Route path="results" element={<Results />} />
         </Route>
       </Routes>
     </BrowserRouter>
