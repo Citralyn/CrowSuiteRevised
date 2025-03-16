@@ -11,7 +11,6 @@ export default function Deck() {
     const [cards, setCards] = useState([]);
     const [deckIndices, setDeckIndices] = useState([]);
 
-    useEffect(() => {
     socket.on("updateDeck", (newCards, newDeckIndices) => {
         console.log(`CARDS ${newCards}`)
         for (let i = 0; i < newCards.length; i++) {
@@ -24,10 +23,6 @@ export default function Deck() {
 
         
     })
-        return () => {
-            socket.off("updateDeck"); 
-        };
-    }, []);
 
     useEffect(() => {
         console.log("cards has updated")

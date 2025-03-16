@@ -36,11 +36,20 @@ app.post("/new_user", (req, res) => {
 })
 
 app.get("/get_game_id", (req, res) => {
-    res.send(req.cookies.game_id); 
+    if (req.cookies.game_id) {
+        res.send(req.cookies.game_id); 
+    } else {
+        res.send("undefined")
+    }
+    
 })
 
 app.get("/get_player_id", (req, res) => {
-    res.send(req.cookies.player_id); 
+    if (req.cookies.player_id) {
+        res.send(req.cookies.player_id); 
+    } else {
+        res.send("undefined")
+    }
 })
 
 const io = new Server( httpServer, {
@@ -69,6 +78,7 @@ io.on("connection", (socket) => {
 
         let newPlayer = new Player(username, totalPlayers, socket.id);
         currentGame.addPlayer(newPlayer);
+        console.log(`${socket.id} is joining ${currentGame.gameRoom}`)
         socket.join(currentGame.gameRoom); 
         socket.emit("switchToWaiting");
         socket.emit("addPlayerCookie", currentGameNumber); 
@@ -92,16 +102,46 @@ io.on("connection", (socket) => {
 
         let currentPlayer = currentGame.playerUsernames[currentGame.currentPlayerTurn - 1]; 
         console.log(`PLAYERS -> ${currentGame.players}`)
+        console.log(currentGame.gameRoom);
+        //socket.emit("initializeUI", currentGame.players, currentPlayer)
+        //socket.emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
+        //socket.emit("updateOtherPlayers", currentGame.players);
         io.to(currentGame.gameRoom).emit("initializeUI", currentGame.players, currentPlayer);
         io.to(currentGame.gameRoom).emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
         io.to(currentGame.gameRoom).emit("updateOtherPlayers", currentGame.players);
     })
 
-    socket.on("connectToPrevious", (gameRoomNumber) => {
+    socket.on("everything_else", () => {
+        console.log("tests")
+        let currentGame = games[0];
+        socket.emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
+        socket.emit("updateOtherPlayers", currentGame.players);
+    })
+
+    socket.on("connectToPrevious", (gameRoomNumber, oldPlayer) => {
+        
         console.log(gameRoomNumber)
         let currentGame = games[gameRoomNumber];
         socket.join(currentGame.gameRoom); 
+        currentGame.players[socket.id] = currentGame.players[oldPlayer];
+        console.log(currentGame.players); 
+
     })
+
+    socket.on("getUI", (gameRoomNumber) => {
+        console.log(gameRoomNumber)
+        let currentGame = games[gameRoomNumber];
+        let currentPlayer = currentGame.playerUsernames[currentGame.currentPlayerTurn - 1]; 
+        socket.emit("initializeUI", currentGame.players, currentPlayer)
+    })
+
+    socket.on("disconnecting", () => {
+        console.log(socket.rooms); // the Set contains at least the socket ID
+      });
+    
+      socket.on("disconnect", () => {
+        console.log(`disconnecting from server`)
+      });
 });
   
 httpServer.listen(3003, () => {

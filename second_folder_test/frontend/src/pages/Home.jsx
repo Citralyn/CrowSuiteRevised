@@ -12,6 +12,16 @@ export default function HomePage() {
         socket.on("connect", () => {
             console.log(`${socket.id} has connected`);
           });
+
+        socket.on("disconnect", (reason, details) => {
+            console.log(reason);
+
+            console.log(details.message);
+
+            console.log(details.description);
+
+            console.log(details.context);
+        })
     }, [])
 
     function goToTutorial() {
@@ -19,6 +29,8 @@ export default function HomePage() {
     }
 
     async function playGame() {
+      navigateTo('/login');
+      /*
       let state = await getGameState(); 
 
       if (state != "new") {
@@ -34,7 +46,7 @@ export default function HomePage() {
 
       } else {
         navigateTo('/login');
-      }
+      }*/
     }
 
     return(

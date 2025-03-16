@@ -1,8 +1,24 @@
 TODO:
+
+// I hate cookies so much
+i think im just going to get it working again, then ask someone abotu the cookies
+
+// works on safari kind of, cookies may still be an issue
+// i think for undefined (it updates on like socket (first) and socket (second))
 I need to isolate certain parts of the code to test it
 Instead of just running the whole thing each itme lol 
 
+// i thiink i used useState correctly? i really do a need to do a write-up
 
+// a rejoining page?
+// so far only work on chrome
+(bc safari has cookie issues)
+
+// i think async messing me up
+
+// defiinitly will ahve to do a write up on mounting
+and use effecct
+and all those errors 
 
 lets think 
 // player username

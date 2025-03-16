@@ -2,6 +2,8 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+import { useState, useEffect } from "react"
+
 function Card({suit, number}) {
     return(
         <Container 
@@ -34,6 +36,10 @@ function DeckCard({suit, number}) {
 
 function HeldCard({id, cards, held, setHeld, 
     selected, setSelected, amountSelected, setAmountSelected}) {
+    const [suit, setSuit] = useState("pigeon");
+    const [number, setNumber] = useState(0);
+
+
     function changeToSelected() {
         let currentHeld = held;
         let currentSelected = selected;
@@ -46,8 +52,13 @@ function HeldCard({id, cards, held, setHeld,
         setAmountSelected(currentAmountSelected);
     }
 
-    let suit = cards[id].suit;
-    let number = cards[id].number;
+    useEffect(() => {
+        if (cards.length > 0) {
+            setSuit(cards[id].suit)
+            setNumber(cards[id].number)
+        } 
+    }, [cards])
+
 
     return(         
         <div onClick={changeToSelected}>

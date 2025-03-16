@@ -10,7 +10,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image"
 
 import socket from "../../socket.js";
-import { getPlayerID } from "../utilities/cookies.js"
+import { getPlayerID, getGameID } from "../utilities/cookies.js"
 
 import { useState, useEffect } from "react";
 
@@ -75,9 +75,7 @@ function PlayerCards({playerNumber, username, cards, held, setHeld,
 }
 
 export default function Game() {
-    const [cards, setCards] = useState([
-        {value: 0, number: 0, suit: 0}, {value: 0, number: 0, suit: 0}, {value: 0, number: 0, suit: 0}
-    ]);
+    const [cards, setCards] = useState([ ]);
     const [selected, setSelected] = useState([
         false, false, false, false, false, false,
         false, false, false, false, false, false, false
@@ -87,21 +85,87 @@ export default function Game() {
         true, true, true, true, true, true,
         true, true, true, true, true, true, true
     ]);
+    const [playerID, setPlayerID] = useState("undefined"); 
+    const [gameID, setGameID] = useState("undefined"); 
     const [username, setUser] = useState(""); 
     const [playerNumber, setPlayerNumber] = useState(0); 
     const [currentPlayer, setCurrentPlayer] = useState(""); 
+
+    /*
+    socket.on("connect", () => {
+        console.log(`${socket.id} has connected`);
+
+
+
+        async function originalPlayer() {
+            let og = await getPlayerID(); 
+            console.log(og);
+            return og; 
+        }
+
+        async function originalGame() {
+            let og = await getGameID(); 
+            console.log(og);
+            return og; 
+        }
+
+        let player = originalPlayer();
+        let game = originalGame(); 
+
+        if (player != "undefined") {
+            socket.emit("connectToPrevious", game, player);
+        }
+
+        
+      });
+
+    
+    useEffect(() => {
+        console.log("socket changed")
+        async function originalPlayer() {
+            let og = await getPlayerID(); 
+            if (og != "undefined") {
+                setPlayerID(og);
+            }
+            
+        }
+    
+        async function originalGame() {
+            let og = await getGameID(); 
+            if (og != "undefined") {
+                setPlayerID(og);
+            }
+        }
+
+        originalPlayer();
+        originalGame(); 
+        
+    }, [socket.id]); */
+
+    /*
+    useEffect(() => {
+        console.log(playerID)
+        console.log("gameID changed")
+        console.log(gameID)
+        if (gameID != "undefined") {
+            socket.emit("connectToPrevious", gameID, playerID);
+            socket.emit("getUI", gameID)
+        }
+    }, [gameID]) */
 
     useEffect(() => {
         for (let i = 0; i < cards.length; i++) {
             console.log(cards[i].value)
         }
+        console.log("cards have updated")
+        socket.emit("everything_else")
     }, [cards]);
 
-    socket.on("initializeUI", async (players, currentPlayer) => {
+    socket.on("initializeUI", (players, currentPlayer) => {
         console.log("being initialized?")
-        let current_player_id = await getPlayerID();
-
-        const current_player_object = players[current_player_id];
+        console.log(playerID);
+        console.log(socket.id)
+        const current_player_object = players[socket.id];
         console.log(current_player_object); 
 
         let newCards = [...current_player_object.playerCards];
@@ -110,7 +174,35 @@ export default function Game() {
         setUser(current_player_object.username);
         setPlayerNumber(current_player_object.playerNumber);
         setCurrentPlayer(currentPlayer); 
-    }); 
+    })
+
+    
+
+
+    /*
+    useEffect(() => {
+        console.log("something happening 1")
+        socket.on("initializeUI", async (players, currentPlayer) => {
+            console.log("being initialized?")
+            let current_player_id = await getPlayerID();
+
+            const current_player_object = players[current_player_id];
+            console.log(current_player_object); 
+
+            let newCards = [...current_player_object.playerCards];
+
+            setCards(newCards);
+            setUser(current_player_object.username);
+            setPlayerNumber(current_player_object.playerNumber);
+            setCurrentPlayer(currentPlayer); 
+        }); 
+
+        return () => {
+            socket.off("initializeUI"); 
+        };
+
+    }, );
+    */
 
     if (cards.length === 0) {
         return(<h1>undefined</h1>)

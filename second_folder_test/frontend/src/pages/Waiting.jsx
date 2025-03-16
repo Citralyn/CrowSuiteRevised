@@ -31,6 +31,8 @@ export default function Waiting() {
     async function startGame() {
         if (readyToStart) {
             let current_game_id = await getGameID(); 
+            console.log("current_game_id is")
+            console.log(current_game_id)
             socket.emit("clientHasStarted", current_game_id);
         }
     }
