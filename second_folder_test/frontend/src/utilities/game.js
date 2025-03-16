@@ -9,7 +9,7 @@ class Game {
     currentPlayerTurn = 1; 
     numberOfPasses = 0; 
     cards = []; 
-    deckCardIndexes = [3, 14, 39]; 
+    deckCardIndexes = [13, 17, 22, 27, 30]; 
 
     players = {}
     playerUsernames = []; 
@@ -45,10 +45,12 @@ class Game {
             player.playerCards.sort((a, b) => (a.value - b.value));
             console.log(`player ${i}'s cards: ${player.playerCards[i].value}`)
         }
+
+        this.cards.sort((a, b) => (a.value - b.value));
     }
 
-    /* yet to check
-    playCards(playerNumber, attemptingToPlay, numberOfCards) {
+    
+    playCards(playerID, attemptingToPlay, numberOfCards) {
         this.numberOfPasses = 0;
 
         this.currentPlayerTurn += 1;
@@ -56,17 +58,22 @@ class Game {
             this.currentPlayerTurn = 1;
         }
 
-        this.players[playerNumber - 1].numberOfCards -= numberOfCards;
-        this.cardsInDeck = attemptingToPlay; 
+        this.players[playerID].numberOfCards -= numberOfCards;
+
+        this.deckCardIndexes = [];
+
+        let count = 0; 
+        for (let i = 0; i < 52; i++) {
+            if (this.cards[i] == attemptingToPlay[count]) {
+                this.deckCardIndexes.push(i); 
+                count++; 
+            }
+        }
+
         this.roundAmountOfCards = numberOfCards; 
 
-        console.log(`Current player ${this.players[playerNumber - 1].username}
-            has ${this.players[playerNumber - 1].numberOfCards}!`); 
-
-        if (this.players[playerNumber - 1].numberOfCards == 0) {
-            this.gameOver = true;
-            this.winner = this.players[playerNumber - 1]; 
-            console.log(`GAME OVER -> ${this.gameOver}`);
+        if (this.players[playerID].numberOfCards == 0) {
+            this.winner = this.players[playerID]; 
         }
     }
 
@@ -81,9 +88,9 @@ class Game {
         if (this.numberOfPasses == 3) {
             this.numberOfPasses = 0; 
             this.roundAmountOfCards = 0; 
-            this.cardsInDeck = [];
+            this.deckCardIndexes = [];
         }
-    } */
+    } 
 
 }
 

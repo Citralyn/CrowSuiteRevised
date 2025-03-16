@@ -15,13 +15,24 @@ import { getPlayerID, getGameID } from "../utilities/cookies.js"
 import { useState, useEffect } from "react";
 
 
-function Selection({cards, held, setHeld, selected, setSelected, 
+function Selection({cards, used, held, setHeld, selected, setSelected, 
     amountSelected, setAmountSelected}) {
+
+    function playCards() {
+        //socket.emit("get_rooms")
+        socket.emit("attemptToPlay", selected)
+    }
+
+    function passTurn() {
+        socket.emit("attemptToPass")
+    }
+
     return(
         <Container>
                 <Row>
                 {Array.from({ length: selected.length }, (_, i) => (
                     <Col key={i} >
+                        {!used[i] &&
                         <SelectedCard 
                         id = {i}
                         cards = {cards}
@@ -32,20 +43,20 @@ function Selection({cards, held, setHeld, selected, setSelected,
                         amountSelected={amountSelected}
                         setAmountSelected={setAmountSelected}
                         >
-                        </SelectedCard>
+                        </SelectedCard>}
                     </Col>
                 ))}
                 </Row>
                 <Row>
-                    <Col><Button>Play</Button></Col>
-                    <Col><Button>Pass</Button></Col>
+                    <Col><Button onClick={playCards}>Play</Button></Col>
+                    <Col><Button onClick={passTurn}>Pass</Button></Col>
                 </Row>
         </Container>
     )
 
 }
 
-function PlayerCards({playerNumber, username, cards, held, setHeld, 
+function PlayerCards({playerNumber, username, cards, used, held, setHeld, 
     selected, setSelected, amountSelected, setAmountSelected}) {
     return(
         <Container>
@@ -56,6 +67,7 @@ function PlayerCards({playerNumber, username, cards, held, setHeld,
                 <Row>
                 {Array.from({ length: held.length }, (_, i) => (
                     <Col key={i} >
+                        {!used[i] &&
                         <HeldCard 
                         id = {i}
                         cards = {cards}
@@ -66,7 +78,7 @@ function PlayerCards({playerNumber, username, cards, held, setHeld,
                         amountSelected={amountSelected}
                         setAmountSelected={setAmountSelected}
                         >
-                        </HeldCard>
+                        </HeldCard>}
                     </Col>
                 ))}
                 </Row>
@@ -85,73 +97,16 @@ export default function Game() {
         true, true, true, true, true, true,
         true, true, true, true, true, true, true
     ]);
+    const [used, setUsed] = useState([
+        false, false, false, false, false, false,
+        false, false, false, false, false, false, false
+    ]);
     const [playerID, setPlayerID] = useState("undefined"); 
     const [gameID, setGameID] = useState("undefined"); 
     const [username, setUser] = useState(""); 
     const [playerNumber, setPlayerNumber] = useState(0); 
     const [currentPlayer, setCurrentPlayer] = useState(""); 
 
-    /*
-    socket.on("connect", () => {
-        console.log(`${socket.id} has connected`);
-
-
-
-        async function originalPlayer() {
-            let og = await getPlayerID(); 
-            console.log(og);
-            return og; 
-        }
-
-        async function originalGame() {
-            let og = await getGameID(); 
-            console.log(og);
-            return og; 
-        }
-
-        let player = originalPlayer();
-        let game = originalGame(); 
-
-        if (player != "undefined") {
-            socket.emit("connectToPrevious", game, player);
-        }
-
-        
-      });
-
-    
-    useEffect(() => {
-        console.log("socket changed")
-        async function originalPlayer() {
-            let og = await getPlayerID(); 
-            if (og != "undefined") {
-                setPlayerID(og);
-            }
-            
-        }
-    
-        async function originalGame() {
-            let og = await getGameID(); 
-            if (og != "undefined") {
-                setPlayerID(og);
-            }
-        }
-
-        originalPlayer();
-        originalGame(); 
-        
-    }, [socket.id]); */
-
-    /*
-    useEffect(() => {
-        console.log(playerID)
-        console.log("gameID changed")
-        console.log(gameID)
-        if (gameID != "undefined") {
-            socket.emit("connectToPrevious", gameID, playerID);
-            socket.emit("getUI", gameID)
-        }
-    }, [gameID]) */
 
     useEffect(() => {
         for (let i = 0; i < cards.length; i++) {
@@ -161,7 +116,22 @@ export default function Game() {
         socket.emit("everything_else")
     }, [cards]);
 
-    socket.on("initializeUI", (players, currentPlayer) => {
+    socket.on("confirmMove", () => {
+        let new_used = [...used]; 
+        let new_selected = [...selected]; 
+        for (let i = 0; i < 13; i++) {
+            if (selected[i]) {
+                new_used[i] = true; 
+                new_selected[i] = false; 
+            }
+        }
+
+        setUsed(new_used);
+        setSelected(new_selected);
+        setAmountSelected(0);
+    })
+
+    socket.on("initializeUI", (players, currentPlayer, gameNumber) => {
         console.log("being initialized?")
         console.log(playerID);
         console.log(socket.id)
@@ -170,6 +140,7 @@ export default function Game() {
 
         let newCards = [...current_player_object.playerCards];
 
+        setGameID(gameNumber)
         setCards(newCards);
         setUser(current_player_object.username);
         setPlayerNumber(current_player_object.playerNumber);
@@ -178,34 +149,8 @@ export default function Game() {
 
     
 
-
-    /*
-    useEffect(() => {
-        console.log("something happening 1")
-        socket.on("initializeUI", async (players, currentPlayer) => {
-            console.log("being initialized?")
-            let current_player_id = await getPlayerID();
-
-            const current_player_object = players[current_player_id];
-            console.log(current_player_object); 
-
-            let newCards = [...current_player_object.playerCards];
-
-            setCards(newCards);
-            setUser(current_player_object.username);
-            setPlayerNumber(current_player_object.playerNumber);
-            setCurrentPlayer(currentPlayer); 
-        }); 
-
-        return () => {
-            socket.off("initializeUI"); 
-        };
-
-    }, );
-    */
-
     if (cards.length === 0) {
-        return(<h1>undefined</h1>)
+        return(<h1>{socket.id}</h1>)
     } else {
     return(
         <div>
@@ -220,6 +165,7 @@ export default function Game() {
             </Row>
             {(amountSelected > 0) && <Selection 
                 cards={cards}
+                used={used}
                 held={held}
                 setHeld={setHeld}
                 selected={selected}
@@ -231,6 +177,7 @@ export default function Game() {
                 playerNumber={playerNumber}
                 username={username}
                 cards={cards}
+                used={used}
                 held={held}
                 setHeld={setHeld}
                 selected={selected}

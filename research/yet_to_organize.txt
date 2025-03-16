@@ -1,5 +1,14 @@
 TODO:
 
+// cookies, 
+// and the other problem is (at least on safari) i dont think it loads state correctly
+//or like certain events dont work (i think they never reaech ontime)
+// maybe i just, have it run twice or something
+// or make a manual btuton for it, idk
+// but idk how to save game ID state 
+
+// ya i think cookies for later 
+
 // I hate cookies so much
 i think im just going to get it working again, then ask someone abotu the cookies
 
