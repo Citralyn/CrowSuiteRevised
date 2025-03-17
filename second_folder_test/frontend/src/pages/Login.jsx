@@ -29,13 +29,14 @@ export default function Login() {
     return(
       <div className="cool_color">
       <div style={{height: "20vh"}}></div>
-      <Container className='w-50 other_color rounded shadow bg-transparent'>
+      <Container className='w-50 p-2 login_card rounded shadow'>
         
         <Row className='justify-content-center align-items-center'>
         <Col/>
-        <Col className='bg-light'>
+        <Col className='bg-light m-1'>
         <Image style={{width: "16vw"}} src="crow_king.png"/>
         </Col>
+        <Col/>
         <Col>
         <Form className='text-center' onSubmit={handleSubmit}>
           
@@ -57,7 +58,7 @@ export default function Login() {
         <Col/>
         </Row>
       </Container>
-      <div style={{height: "20vh"}}></div>
+      <div style={{height: "40vh"}}></div>
       </div>
     )
 }

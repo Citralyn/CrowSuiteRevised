@@ -17,7 +17,7 @@ export default function Message() {
 
     socket.on("ERROR", (new_msg) => {
         setMsg(new_msg)
-        setTitle("ERROR")
+        setTitle("INCORRECT MOVE")
         setShow(true)
     })
 
@@ -29,7 +29,7 @@ export default function Message() {
 
     return(
         <div>
-      <Modal show={show} onHide={handleClose}>
+      <Modal className="text-center" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>

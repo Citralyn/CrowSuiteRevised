@@ -42,7 +42,7 @@ export default function OtherPlayer({requestedIndex, givenIndex}) {
     });
 
     return(
-        <Container style={{width: "15vw"}} className="rounded p-3 bg-primary shadow">
+        <Container style={{width: "15vw"}} className="rounded p-3 other_player_bg shadow">
             <Image fluid src={images[requestedIndex - 1]}></Image>
             <ListGroup className="text-center">
                 <ListGroup.Item>{username}</ListGroup.Item>

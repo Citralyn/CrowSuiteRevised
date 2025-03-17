@@ -8,6 +8,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button"
 import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image"
+import { HGap, VGap } from "../components/Gap"
 
 
 import socket from "../../socket.js";
@@ -51,12 +52,10 @@ function PlayerCards({playerNumber, username, cards, used, held, setHeld,
     selected, setSelected, amountSelected, setAmountSelected}) {
     return(
         <Container>
-            <Container className="w-75 third_color my-3 shadow rounded">
+            <Container className="w-75 login_card py-3 my-3 shadow rounded">
                 <Row className="text-center">
-                    <Col/>
-                    <Col>Player# {playerNumber}</Col>
-                    <Col>{username}</Col>
-                    <Col/>
+                    <Col><h2>* You are Player #{playerNumber},  {username} *</h2></Col>
+                    
                 </Row>
             </Container>
                 <Row>
@@ -185,11 +184,13 @@ export default function Game() {
         return(<h1>{socket.id}</h1>)
     } else {
     return(
-        <div>
-            <h1 className="text-center">Current Player's Turn: {currentPlayer}</h1>
+        <div className="main_bg">
+            <HGap h={"5vh"}></HGap>
             <Row>
                 <OtherPlayer requestedIndex={2} givenIndex={playerNumber}/>
             </Row>
+            <HGap h={"5vh"}></HGap>
+            <h1 className="text-center">Current Player's Turn: {currentPlayer}</h1>
             <Row>
                 <OtherPlayer requestedIndex={1} givenIndex={playerNumber}/>
                 <Deck/>
@@ -225,7 +226,9 @@ export default function Game() {
                 amountSelected={amountSelected}
                 setAmountSelected={setAmountSelected}
             />
+            <HGap h={"5vh"}></HGap>
         </div>
+        
     )
 }
 }

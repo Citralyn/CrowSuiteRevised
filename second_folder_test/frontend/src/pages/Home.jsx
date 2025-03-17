@@ -7,6 +7,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image"
+import { HGap, VGap } from "../components/Gap"
 
 import Button from "react-bootstrap/Button"
 
@@ -55,11 +56,11 @@ export default function HomePage() {
     }
 
     return(
-        <div className="cool_color">
+        <div className="main_bg">
           <div style={{height: "20vh"}}></div>
           <Container className="text-center">
-            <Container className="w-50 other_color rounded">
-          <h1>CROWSUITE</h1>
+            <Container className=" text-center bg-secondary rounded shadow">
+          <h1 style={{fontSize: "10vw"}}>CROWSUITE</h1>
             </Container>
 
           <Row>
@@ -68,15 +69,25 @@ export default function HomePage() {
             <Col><Image className="logo" src="seagull_logo.png"></Image></Col>
             <Col><Image className="logo" src="crow_logo.png"></Image></Col>
           </Row>
-          <Row>
+          <HGap h={"5vh"}></HGap>
+          <Row className="align-items-center">
+            
           <Col/>
-          <Col><Button onClick={playGame}>Play</Button></Col>
-          
-          <Col><Button onClick={goToTutorial}>How 2 Play</Button></Col>
+          <Col>
+          <Container className="rounded shadow" as="button" onClick={playGame}>
+              <h2>Play</h2>
+          </Container>
+          </Col>
+          <Col></Col>
+          <Col>
+          <Container className="rounded shadow" as="button" onClick={goToTutorial}>
+            <h2>How 2 Play</h2>
+          </Container>
+          </Col>
           <Col/>
           </Row>
           </Container>
-          <div style={{height: "20vh"}}></div>
+          <HGap h={"30vh"}></HGap>
         </div>
     )
 }

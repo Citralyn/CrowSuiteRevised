@@ -1,5 +1,21 @@
 .cool_color {
-    background-image: linear-gradient( red, darkred);
+    background-image: linear-gradient( #613e35, #32445c);
+}
+
+.other_player_bg {
+    background-color:#68899c;
+}
+
+.main_bg {
+    background-image: linear-gradient( #613e35, #32445c);
+}
+
+.login_card {
+    background-color:#68899c;
+}
+
+.title_bg {
+    background-color:#68899c;
 }
 
 .other_color {
@@ -11,7 +27,7 @@
 }
 
 .deck_color {
-    background-color: green;
+    background-color: #b89d5e;
 }
 
 .logo {
@@ -19,16 +35,20 @@
 }
 
 .logo:hover {
-    width: 20vw;
+    width: 18vw;
 }
 
 h1 {
-    font-family: "Rubik Burned", system-ui;
+    font-family: "Sigmar One", sans-serif;
 }
 
-$primary: maroon; 
+h2 {
+    font-family: "Emilys Candy", serif;
+}
+
+$primary: #4d778f;
 $secondary: grey;
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Burned&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Emilys+Candy&family=Sigmar+One&display=swap');
 @import '../node_modules/bootstrap/scss/bootstrap.scss';

@@ -39,8 +39,8 @@ export default function Deck() {
     }, [deckIndices]);
     
     return(
-        <Container className='deck_color m-3 rounded shadow w-50 align-items-center'>
-            <Row>
+        <Container className='deck_color m-3 p-3 rounded shadow w-50'>
+            <Row className='justify-content-center align-items-center'>
                 {cards.length > 0 && deckIndices.map((index, i) => (
             <Col key={i}>
                 <DeckCard

@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image"
+import { HGap, VGap } from "../components/Gap"
 
 import { useState } from "react";
 
@@ -51,12 +52,13 @@ export default function Waiting() {
 
     return(
         <div className="cool_color">
+            <HGap h={"10vh"}></HGap>
             <div style={{height: "20vh"}}></div>
-            <Container className="p-4 other_color rounded w-50 text-center">
+            <Container className="p-4 login_card rounded w-50 text-center">
             <h1>{playerAmount}/4 players have joined</h1>
             <Button variant="primary" onClick={startGame}>START</Button>
             </Container>
-            <div style={{height: "20vh"}}></div>
+            <HGap h={"60vh"}></HGap>
         </div>
     )
 }
