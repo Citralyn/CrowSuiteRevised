@@ -91,7 +91,7 @@ function getRoom(socket) {
 
 
 io.on("connection", (socket) => {
-    console.log(`Incoming client: ${socket.id}`); // x8WIv7-mJelg7on_ALbx
+    console.log(`Incoming client: ${socket.id}`); 
 
 
     socket.on("playerJoined", (username) => {
@@ -103,7 +103,7 @@ io.on("connection", (socket) => {
         console.log(`${socket.id} is joining ${currentGame.gameRoom}`)
         socket.join(currentGame.gameRoom); 
         socket.emit("switchToWaiting");
-        //socket.emit("addPlayerCookie", currentGameNumber); 
+
         setTimeout(() => {
             io.to(currentGame.gameRoom).emit("playerConfirmed", currentGame.numberOfPlayers, currentGameNumber);
         }, 100); 
@@ -119,14 +119,6 @@ io.on("connection", (socket) => {
             io.to(currentGame.gameRoom).emit("readyToStart");
         }
     }); 
-
-    /*
-    socket.on("getUI", () => {
-        let currentGame = games[games.length - 1];
-        let currentPlayer = currentGame.playerUsernames[currentGame.currentPlayerTurn - 1]; 
-        console.log("INITS??")
-        io.to(currentGame.gameRoom).emit("initializeUI", currentGame.players, currentPlayer);
-    }); */
 
     socket.on("clientHasStarted", (gn) => {
         let gameNumber = parseInt(getRoom(socket).substring(4));
@@ -145,14 +137,7 @@ io.on("connection", (socket) => {
         setTimeout(() => {
             io.to(currentGame.gameRoom).emit("initializeUI", currentGame.players, currentPlayer, gameNumber);
         }, 100); 
-        
-        //socket.emit("initializeUI", currentGame.players, currentPlayer)
-        //socket.emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
-        //socket.emit("updateOtherPlayers", currentGame.players);
-        
-        //io.to(currentGame.gameRoom).emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
-        //io.to(currentGame.gameRoom).emit("updateOtherPlayers", currentGame.players);
-    })
+     })
 
     socket.on("everything_else", () => {
         console.log("tests")
