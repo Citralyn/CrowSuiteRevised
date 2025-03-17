@@ -3,6 +3,8 @@ TODO:
 // i need like those  page skeletons for when things are loading
 and a catch all 
 
+//svgs from svg repo 
+
 // cookies, 
 // and the other problem is (at least on safari) i dont think it loads state correctly
 //or like certain events dont work (i think they never reaech ontime)
