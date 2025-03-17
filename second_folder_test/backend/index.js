@@ -7,7 +7,7 @@ import cors from "cors"
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://crowsuite2.netlify.app",
     credentials: true
 })); 
 app.use(express.json());
@@ -55,7 +55,7 @@ app.get("/get_player_id", (req, res) => {
 const io = new Server( httpServer, {
     cookie: true,
     cors: {
-        origin: "http://localhost:5173"
+        origin: "https://crowsuite2.netlify.app"
     }
 });
 

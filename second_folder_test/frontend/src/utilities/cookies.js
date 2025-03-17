@@ -1,6 +1,6 @@
 async function getGameState() {
     try {
-      const response = await fetch("http://localhost:3003/get_game_state", {
+      const response = await fetch("https://crowsuiterevised.onrender.com/get_game_state", {
         credentials: "include"
       });
 
@@ -17,7 +17,7 @@ async function getGameState() {
 
 async function setGameState(gamestate) {
     try {
-        const response = await fetch("http://localhost:3003/set_game_state", {
+        const response = await fetch("https://crowsuiterevised.onrender.com/set_game_state", {
             method: "POST",
             credentials: "include",
             headers: {
@@ -38,7 +38,7 @@ async function setGameState(gamestate) {
 
 async function addNewCookies(player_id, game_id) {
     try {
-        const response = await fetch("http://localhost:3003/new_user", {
+        const response = await fetch("https://crowsuiterevised.onrender.com/new_user", {
             method: "POST",
             credentials: "include",
             headers: {
@@ -59,7 +59,7 @@ async function addNewCookies(player_id, game_id) {
 
 async function getGameID() {
     try {
-      const response = await fetch("http://localhost:3003/get_game_id", {
+      const response = await fetch("https://crowsuiterevised.onrender.com/get_game_id", {
         credentials: "include"
       });
 
@@ -76,7 +76,7 @@ async function getGameID() {
 
 async function getPlayerID() {
     try {
-      const response = await fetch("http://localhost:3003/get_player_id", {
+      const response = await fetch("https://crowsuiterevised.onrender.com/get_player_id", {
         credentials: "include"
       });
 
