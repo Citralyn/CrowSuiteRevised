@@ -2,17 +2,14 @@ import OtherPlayer from "../components/OtherPlayer"
 import Deck from "../components/Deck.jsx"
 import Message from "../components/Message"
 import { SelectedCard, HeldCard } from "../components/Card"
+import { HGap, VGap } from "../components/Gap"
+
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button"
-import ListGroup from "react-bootstrap/ListGroup";
-import Image from "react-bootstrap/Image"
-import { HGap, VGap } from "../components/Gap"
-
 
 import socket from "../../socket.js";
-import { getPlayerID, getGameID } from "../utilities/cookies.js"
 
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router';
@@ -97,8 +94,6 @@ export default function Game() {
         false, false, false, false, false, false,
         false, false, false, false, false, false, false
     ]);
-    const [playerID, setPlayerID] = useState("undefined"); 
-    const [gameID, setGameID] = useState("undefined"); 
     const [username, setUser] = useState(""); 
     const [playerNumber, setPlayerNumber] = useState(0); 
     const [currentPlayer, setCurrentPlayer] = useState(""); 
@@ -155,14 +150,12 @@ export default function Game() {
 
     socket.on("initializeUI", (players, currentPlayer, gameNumber) => {
         console.log("being initialized?")
-        console.log(playerID);
         console.log(socket.id)
         const current_player_object = players[socket.id];
         console.log(current_player_object); 
 
         let newCards = [...current_player_object.playerCards];
 
-        setGameID(gameNumber)
         setCards(newCards);
         setUser(current_player_object.username);
         setPlayerNumber(current_player_object.playerNumber);
@@ -170,7 +163,6 @@ export default function Game() {
     })
 
     function playCards() {
-        //socket.emit("get_rooms")
         socket.emit("attemptToPlay", selected)
     }
 
@@ -181,7 +173,7 @@ export default function Game() {
     
 
     if (cards.length === 0) {
-        return(<h1>{socket.id}</h1>)
+        return(<h1>Waiting for server...</h1>)
     } else {
     return(
         <div className="main_bg">

@@ -22,6 +22,7 @@ function App() {
           <Route path="game" element={<Game />} />
           <Route path="tutorial" element={<Tutorial />} />
           <Route path="results" element={<Results />} />
+          <Route path="*" element={<Home />} />
         </Route>
       </Routes>
     </BrowserRouter>

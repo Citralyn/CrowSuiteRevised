@@ -1,15 +1,14 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container'
-import socket from "../../socket.js";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image"
+
+import socket from "../../socket.js";
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { setGameState } from '../utilities/cookies.js';
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -22,8 +21,6 @@ export default function Login() {
     function handleSubmit(event) {
         event.preventDefault();
         socket.emit("playerJoined", username); 
-        setGameState("waiting")
-        
     }
 
     return(

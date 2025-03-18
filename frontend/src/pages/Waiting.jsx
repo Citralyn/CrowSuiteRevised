@@ -2,12 +2,7 @@ import Button from "react-bootstrap/Button"
 import socket from "../../socket";
 import { addNewCookies, setGameState } from '../utilities/cookies.js';
 import { useNavigate } from 'react-router';
-import { getGameID } from "../utilities/cookies.js"
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
-import Image from "react-bootstrap/Image"
 import { HGap, VGap } from "../components/Gap"
 
 import { useState } from "react";
@@ -17,13 +12,6 @@ export default function Waiting() {
     const [readyToStart, setStatus] = useState(false);
     const [gameID, setGameID] = useState(0);
     const navigateTo = useNavigate();
-
-    /*
-    socket.on("addPlayerCookie", (gameNumber) => {
-        //addNewCookies(socket.id, gameNumber);
-        console.log(`new number game ${gameNumber}`); 
-        setGameID(gameNumber)
-    })*/
 
     socket.on("readyToStart", () => {
         setStatus(true); 
@@ -42,8 +30,6 @@ export default function Waiting() {
 
     async function startGame() {
         if (readyToStart) {
-            //let current_game_id = await getGameID(); 
-            
             console.log("current_game_id is")
             console.log(gameID)
             socket.emit("clientHasStarted", gameID);

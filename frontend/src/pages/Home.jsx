@@ -1,15 +1,14 @@
 import socket from "../../socket.js";
+import { HGap, VGap } from "../components/Gap"
+
 import { useEffect } from "react";
 import { useNavigate } from 'react-router';
-import { getGameState, getGameID } from "../utilities/cookies.js"
+
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image"
-import { HGap, VGap } from "../components/Gap"
 
-import Button from "react-bootstrap/Button"
 
 export default function HomePage() {
   const navigateTo = useNavigate();
@@ -21,12 +20,6 @@ export default function HomePage() {
 
         socket.on("disconnect", (reason, details) => {
             console.log(reason);
-
-            console.log(details.message);
-
-            console.log(details.description);
-
-            console.log(details.context);
         })
     }, [])
 
@@ -36,23 +29,6 @@ export default function HomePage() {
 
     async function playGame() {
       navigateTo('/login');
-      /*
-      let state = await getGameState(); 
-
-      if (state != "new") {
-        let current_game_id = await getGameID(); 
-        console.log(current_game_id)
-        socket.emit("connectToPrevious", current_game_id); 
-
-        if (state == "waiting") {
-          navigateTo('/waiting');
-        } else {
-          navigateTo('/game');
-        }
-
-      } else {
-        navigateTo('/login');
-      }*/
     }
 
     return(

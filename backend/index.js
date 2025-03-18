@@ -70,12 +70,6 @@ games.push(game0);
 let currentGameNumber = 0; 
 let totalPlayers = 0; 
 
-async function see_all_clients(io) {
-    const ids = await io.allSockets();
-    for (const id of ids) {
-        console.log(`all clients -> ${id}`);
-    }
-}
 
 function getRoom(socket) {
     let room;
@@ -88,7 +82,6 @@ function getRoom(socket) {
     }
     return room; 
 }
-
 
 io.on("connection", (socket) => {
     console.log(`Incoming client: ${socket.id}`); 
@@ -124,7 +117,6 @@ io.on("connection", (socket) => {
         let gameNumber = parseInt(getRoom(socket).substring(4));
         let currentGame = games[gameNumber];
 
-        see_all_clients(io); 
         io.to(currentGame.gameRoom).emit("switchToGame");
 
         
@@ -132,7 +124,6 @@ io.on("connection", (socket) => {
         console.log(currentGame.gameRoom);
 
         let currentPlayer = currentGame.playerUsernames[currentGame.currentPlayerTurn - 1]; 
-        console.log("INITS??")
 
         setTimeout(() => {
             io.to(currentGame.gameRoom).emit("initializeUI", currentGame.players, currentPlayer, gameNumber);
@@ -140,20 +131,10 @@ io.on("connection", (socket) => {
      })
 
     socket.on("everything_else", () => {
-        console.log("tests")
-        let currentGame = games[0];
+        let gameNumber = parseInt(getRoom(socket).substring(4));
+        let currentGame = games[gameNumber];
         socket.emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
         socket.emit("updateOtherPlayers", currentGame.players);
-    })
-
-    socket.on("connectToPrevious", (gameRoomNumber, oldPlayer) => {
-        
-        console.log(gameRoomNumber)
-        let currentGame = games[gameRoomNumber];
-        socket.join(currentGame.gameRoom); 
-        currentGame.players[socket.id] = currentGame.players[oldPlayer];
-        console.log(currentGame.players); 
-
     })
 
     socket.on("attemptToPass", () => {
@@ -222,7 +203,6 @@ io.on("connection", (socket) => {
                         io.to(currentGame.gameRoom).emit("updateDeck", currentGame.cards, currentGame.deckCardIndexes);
                         io.to(currentGame.gameRoom).emit("updateOtherPlayers", currentGame.players);
                         if (currentGame.endOfGame) {
-                            console.log("SLOOP")
                             io.to(currentGame.gameRoom).emit("switchToResults");
                             setTimeout(() => {
                                 console.log(`winner is: ${currentGame.winner.username}`)
@@ -246,7 +226,6 @@ io.on("connection", (socket) => {
                                 io.to(currentGame.gameRoom).emit("updateOtherPlayers", currentGame.players);
                                 
                                 if (currentGame.endOfGame) {
-                                    console.log("SLOOP")
                                     io.to(currentGame.gameRoom).emit("switchToResults");
                                     setTimeout(() => {
                                         io.to(currentGame.gameRoom).emit("results", currentGame.winner.username);
@@ -270,7 +249,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnecting", () => {
-        console.log(socket.rooms); // the Set contains at least the socket ID
+        console.log(socket.rooms); 
       });
     
       socket.on("disconnect", () => {
