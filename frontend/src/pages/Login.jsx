@@ -26,19 +26,19 @@ export default function Login() {
     return(
       <div className="cool_color">
       <div style={{height: "20vh"}}></div>
-      <Container className='w-50 p-2 login_card rounded shadow'>
+      <Container style={{width: "40vw"}} className='p-2 login_card rounded shadow'>
         
         <Row className='justify-content-center align-items-center'>
         <Col/>
-        <Col className='bg-light m-1'>
+        <Col xs={3} className='bg-light m-1'>
         <Image style={{width: "16vw"}} src="crow_king.png"/>
         </Col>
-        <Col/>
-        <Col>
+        <Col xs={2} />
+        <Col xs={3} className='justify-content-center'>
         <Form className='text-center' onSubmit={handleSubmit}>
           
           <Form.Group className="mb-3" controlId="username">
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Username: </Form.Label>
               <Form.Control 
               onChange={(e) => setUsername(e.target.value)} 
               className='text-center' 

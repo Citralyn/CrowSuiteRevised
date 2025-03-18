@@ -31,9 +31,25 @@ export default function HomePage() {
       navigateTo('/login');
     }
 
+    const cardImages = [
+      "pigeon_jack.png", "duck_jack.png", "seagull_jack.png", "crow_jack.png",
+      "pigeon_queen.png", "duck_queen.png", "seagull_queen.png", "crow_queen.png",
+      "pigeon_king.png", "duck_king.png", "seagull_king.png", "crow_king.png",
+    ]
+
     return(
         <div className="main_bg">
-          <div style={{height: "20vh"}}></div>
+          <div style={{height: "10vh"}}></div>
+          <Row>
+            {Array.from({ length: 6 }, (_, i) => (
+              <>
+              <Col/>
+              <Col className="bg-light rounded "><Image style={{width: "6vw"}} src={cardImages[i]}/></Col>
+              <Col/>
+              </>
+            ))}
+          </Row>
+          <div style={{height: "10vh"}}></div>
           <Container className="text-center">
             <Container className=" text-center bg-secondary rounded shadow">
           <h1 style={{fontSize: "10vw"}}>CROWSUITE</h1>
@@ -63,7 +79,17 @@ export default function HomePage() {
           <Col/>
           </Row>
           </Container>
-          <HGap h={"30vh"}></HGap>
+          <div style={{height: "10vh"}}></div>
+          <Row>
+            {Array.from({ length: 6 }, (_, i) => (
+              <>
+              <Col/>
+              <Col className="bg-light rounded "><Image style={{width: "6vw"}} src={cardImages[i + 6]}/></Col>
+              <Col/>
+              </>
+            ))}
+          </Row>
+          <div style={{height: "10vh"}}></div>
         </div>
     )
 }
