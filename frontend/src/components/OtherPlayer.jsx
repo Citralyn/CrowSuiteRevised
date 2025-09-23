@@ -11,7 +11,7 @@ export default function OtherPlayer({requestedIndex, givenIndex}) {
     const [username, setUsername] = useState("");
     const [numberOfCards, setNumberOfCards] = useState(0);
 
-    const images = ["pigeon_svg.svg", "duck_svg.svg", "crow_svg.svg"];
+    const images = ["pigeon_king.png", "duck_king.png", "seagull_king.png"];
 
     useEffect(() => {
         console.log(username);

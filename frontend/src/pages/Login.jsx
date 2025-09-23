@@ -24,38 +24,24 @@ export default function Login() {
     }
 
     return(
-      <div className="cool_color">
-      <div style={{height: "20vh"}}></div>
-      <Container style={{width: "40vw"}} className='p-2 login_card rounded shadow'>
-        
-        <Row className='justify-content-center align-items-center'>
-        <Col/>
-        <Col xs={3} className='bg-light m-1'>
-        <Image style={{width: "16vw"}} src="crow_king.png"/>
-        </Col>
-        <Col xs={2} />
-        <Col xs={3} className='justify-content-center'>
-        <Form className='text-center' onSubmit={handleSubmit}>
-          
+    <div className="cool_color d-flex justify-content-center align-items-center vh-100 bg-light">
+      <Container style={{ maxWidth: '400px' }} className="p-4 rounded shadow bg-white">
+        <Form onSubmit={handleSubmit} className="text-center">
           <Form.Group className="mb-3" controlId="username">
-              <Form.Label>Username: </Form.Label>
-              <Form.Control 
-              onChange={(e) => setUsername(e.target.value)} 
-              className='text-center' 
-              type="username" 
-              placeholder="John Smith" 
-              />
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" className="w-100">
             Submit
           </Button>
         </Form>
-        </Col>
-        <Col/>
-        </Row>
       </Container>
-      <div style={{height: "40vh"}}></div>
-      </div>
+    </div>
     )
 }

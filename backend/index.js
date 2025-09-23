@@ -6,10 +6,22 @@ import cors from "cors"
 
 const app = express();
 
+/* if it's REMOTE */
+
 app.use(cors({
     origin: "https://crowsuite2.netlify.app",
     credentials: true
 })); 
+
+
+/* if it's LOCAL 
+
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+})); 
+
+*/
 app.use(express.json());
 app.use(cookieParser())
 
@@ -52,10 +64,13 @@ app.get("/get_player_id", (req, res) => {
     }
 })
 
+/* cors here too! */ 
 const io = new Server( httpServer, {
     cookie: true,
     cors: {
-        origin: "https://crowsuite2.netlify.app"
+        origin: "https://crowsuite2.netlify.app" // for REMOTE 
+
+       /*  origin: "http://localhost:5173" // for local */
     }
 });
 

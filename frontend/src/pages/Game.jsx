@@ -69,6 +69,7 @@ function PlayerCards({playerNumber, username, cards, used, held, setHeld,
                         setSelected={setSelected}
                         amountSelected={amountSelected}
                         setAmountSelected={setAmountSelected}
+                        
                         >
                         </HeldCard>
                     </Col>
