@@ -171,6 +171,19 @@ export default function Game() {
         socket.emit("attemptToPass")
     }
 
+       function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return isMobile;
+}
+
+const isMobile = useIsMobile();
     
 
     if (cards.length === 0) {
@@ -200,6 +213,7 @@ export default function Game() {
                 amountSelected={amountSelected}
                 setAmountSelected={setAmountSelected}
             />}
+            <div style={{height: isMobile ? "5vw" : "0vw"}}></div>
             <Row className="row justify-content-center text-center">
                 <Col/>
                 <Col><Button onClick={playCards}>Play</Button></Col>
