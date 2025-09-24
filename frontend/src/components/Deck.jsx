@@ -57,7 +57,7 @@ const isMobile = useIsMobile();
     return(
         <Container 
         style={{width: isMobile ? "30vw" : "50vw", height: isMobile ? "40vw" : "25vw"}}
-        className="deck_color shadow rounded m3 p3"
+        className=" d-flex shadow rounded m-1 justify-content-center align-items-center deck_color shadow rounded m3 p3"
         >
 <Row className='justify-content-center align-items-center'> {cards.length > 0 && deckIndices.map((index, i) => ( <Col key={i}> <DeckCard suit={cards[index].suit} number={cards[index].number} /> </Col> ))} </Row>
         </Container>
