@@ -30,6 +30,38 @@
     background-color: #b89d5e;
 }
 
+// chat gpt for deck stuff (container, row, col, etc) :/
+.deck-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;       /* vertically center like your example */
+}
+
+.deck-container {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    width: 7vw;
+    height: 4vh;
+}
+
+.deck-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.deck-col {
+  margin: 0.5rem;
+}
+
+
+
+
 .logo {
     width: 15vw;
 }
@@ -44,6 +76,10 @@ h1 {
 
 h2 {
     font-family: "Emilys Candy", serif;
+}
+
+.card_txt {
+     font-family: "Sigmar One", sans-serif;
 }
 
 /* heads up - the next 2 classes were from ai */ 

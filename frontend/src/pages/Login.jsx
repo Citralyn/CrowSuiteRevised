@@ -33,6 +33,7 @@ export default function Login() {
               type="text"
               placeholder="Enter your username"
               value={username}
+              maxLength={10}
               onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>

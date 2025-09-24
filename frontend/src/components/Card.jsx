@@ -5,15 +5,31 @@ import Col from 'react-bootstrap/Col'
 import { useState, useEffect } from "react"
 
 function Card({suit, number}) {
+
+        function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return isMobile;
+}
+
+const isMobile = useIsMobile();
+
+
     return(
         <Container 
-        style={{width: "5vw", height: "8vw"}} 
-        className="bg-light shadow rounded"
+        style={{width: isMobile ? "15vw" : "8vw", height: isMobile ? "25vw" : "12vw"}} 
+        className="card_txt d-flex bg-light shadow rounded m-1 justify-content-center align-items-center"
         >
             <Col className="d-flex flex-column align-items-center">
-                <Row className="justify-content-center">{number}</Row>
-                <Row className="justify-content-center">of</Row>
-                <Row className="justify-content-center">{suit}</Row>
+                <Row className="card_txt justify-content-center">{number}</Row>
+                <Row className="card_txt justify-content-center">of</Row>
+                <Row className="card_txt justify-content-center">{suit}</Row>
             </Col>
         </Container>
     )

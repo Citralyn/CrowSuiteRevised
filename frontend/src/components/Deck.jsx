@@ -37,19 +37,30 @@ export default function Deck() {
             console.log(deckIndices[i])
         }
     }, [deckIndices]);
+
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return isMobile;
+}
+
+const isMobile = useIsMobile();
+
     
     return(
-        <Container className='deck_color m-3 p-3 rounded shadow w-50'>
-            <Row className='justify-content-center align-items-center'>
-                {cards.length > 0 && deckIndices.map((index, i) => (
-            <Col key={i}>
-                <DeckCard
-                suit={cards[index].suit}
-                number={cards[index].number}
-                />
-            </Col>
-            ))}
-            </Row>
+        <Container 
+        style={{width: isMobile ? "30vw" : "50vw", height: isMobile ? "40vw" : "25vw"}}
+        className="deck_color shadow rounded m3 p3"
+        >
+<Row className='justify-content-center align-items-center'> {cards.length > 0 && deckIndices.map((index, i) => ( <Col key={i}> <DeckCard suit={cards[index].suit} number={cards[index].number} /> </Col> ))} </Row>
         </Container>
+
     )
 }

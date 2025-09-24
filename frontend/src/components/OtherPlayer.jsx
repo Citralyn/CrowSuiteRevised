@@ -41,8 +41,22 @@ export default function OtherPlayer({requestedIndex, givenIndex}) {
 
     });
 
+    function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return isMobile;
+}
+
+const isMobile = useIsMobile();
+
     return(
-        <Container style={{width: "15vw"}} className="rounded p-3 other_player_bg shadow">
+        <Container style={{width: isMobile ? "25vw" : "18vw", height: isMobile ? "42vw" : "30vw"}} className="rounded p-3 other_player_bg shadow">
             <Image fluid src={images[requestedIndex - 1]}></Image>
             <ListGroup className="text-center">
                 <ListGroup.Item>{username}</ListGroup.Item>
